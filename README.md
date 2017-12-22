@@ -46,3 +46,5 @@ Enhance this app in the following way:
 To create an expressJS application that:
 - implement the complete REST API for user management (CRUD) in the expressJS app, with necessary routes and http methods.
 - update your angularJS app's service to call this expressJS app to access the user array completely.
+
+[repo](https://github.com/ApplefaceLisa/MEAN_User-Manager.git)
