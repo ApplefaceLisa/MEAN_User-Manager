@@ -1,0 +1,2 @@
+0000000000000000000000000000000000000000 cd58dbbc5006653125af071470e7394f0126b32d ApplefaceLisa <applefacelisa@gmail.com> 1513578125 -0800	commit (initial): using route, with pagination
+cd58dbbc5006653125af071470e7394f0126b32d 9d847e5b61025de9430cfddb85fbd8d8ccd26f8c ApplefaceLisa <applefacelisa@gmail.com> 1513800371 -0800	commit: change service code, do search/sort/pagination in controller

@@ -1,0 +1,74 @@
+<div class="w3-container" ng-controller="listUserController">
+    <h3>Users</h3>
+    <form>
+        <label>Search : <input type="text" ng-model="searchKey" ng-model-options="{ debounce: 200 }"></label>
+    </form>
+    <hr/>
+    <div>
+      <button ng-click="sortBy(null)">Set to unsorted</button>
+      <label>items per page : <input type="number" ng-model="pageSize" ng-model-options="{ debounce: 200 }"></label>
+      <span>total users : {{users.length}}</span>
+    </div>
+    <table class="w3-table w3-bordered w3-striped">
+      <tr>
+        <th>Id</th>
+        <th>Edit</th>
+        <th>Delete</th>
+        <th>
+            <span class="sortby" ng-click="sortBy('fName')">First Name</span>
+            <span class="sortorder" ng-show="propertyName === 'fName'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('lName')">Last Name</span>
+            <span class="sortorder" ng-show="propertyName === 'lName'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('title')">Title</span>
+            <span class="sortorder" ng-show="propertyName === 'title'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('gender')">Gender</span>
+            <span class="sortorder" ng-show="propertyName === 'gender'" ng-class="{reverse: reverse}"></span>
+        </th>
+        <th>
+            <span class="sortby" ng-click="sortBy('age')">Age</span>
+            <span class="sortorder" ng-show="propertyName === 'age'" ng-class="{reverse: reverse}"></span>
+        </th>
+      </tr>
+      <tr ng-repeat="user in users | orderBy:propertyName:reverse | filter:searchKey | limitTo : pageSize : pager.startIndex">
+        <td>{{user.id}}</td>
+        <td>
+          <button class="w3-btn w3-ripple" ng-click="editUser($event, user.id)">&#9998; Edit</button>
+        </td>
+        <td>
+          <button class="w3-btn w3-ripple" ng-click="deleteUser($event, user.id)">&#10006; Delete</button>
+        </td>
+        <td>{{ user.fName }}</td>
+        <td>{{ user.lName }}</td>
+        <td>{{ user.title }}</td>
+        <td>{{ user.gender }}</td>
+        <td>{{ user.age }}</td>
+      </tr>
+    </table>
+    <br>
+    <!-- pager -->
+    <ul ng-if="pager.pages.length" class="pagination">
+        <li ng-class="{disabled:pager.currentPage === 1}">
+            <a ng-click="setPage(1)">First</a>
+        </li>
+        <li ng-class="{disabled:pager.currentPage === 1}">
+            <a ng-click="setPage(pager.currentPage - 1)">Previous</a>
+        </li>
+        <li ng-repeat="page in pager.pages" ng-class="{active:pager.currentPage === page}">
+            <a ng-click="setPage(page)">{{page}}</a>
+        </li>
+        <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+            <a ng-click="setPage(pager.currentPage + 1)">Next</a>
+        </li>
+        <li ng-class="{disabled:pager.currentPage === pager.totalPages}">
+            <a ng-click="setPage(pager.totalPages)">Last</a>
+        </li>
+    </ul>
+    <br>
+    <button class="w3-btn w3-green w3-ripple" ng-click="createUser($event)">&#9998; Create New User</button>
+</div>
