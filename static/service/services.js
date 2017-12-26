@@ -74,23 +74,32 @@ angular.module("customServices", [])
     var service = {};
 
     /* for pagination */
-    var status = {
-        pagesize : 10,
-        currentpage : 1
+    var pagesize = 10;
+    var currentpage = 1;
+
+    function setPagesize(size) {
+        pagesize = size || 10;
+        currentpage = 1;
     }
 
-    function changePagesize(size) {
-        status.pagesize = size || 10;
-        status.currentpage = 1;
+    function setPage(page) {
+        if (currentpage !== page) {
+            currentpage = page || currentpage;
+        }
     }
 
-    function changePage(page) {
-        status.currentpage = page;
+    function getPagesize() {
+        return pagesize;
     }
 
-    service.pagestatus = status;
-    service.changePage = changePage;
-    service.changePagesize = changePagesize;
+    function getPage() {
+        return currentpage;
+    }
+
+    service.setPage = setPage;
+    service.setPagesize = setPagesize;
+    service.getPage = getPage;
+    service.getPagesize = getPagesize;
 
     /************************************************/
     /* RESTful API */
@@ -98,8 +107,6 @@ angular.module("customServices", [])
         return $http({
             method : "GET",
             url : url
-        }).then(function(res) {
-            return res.data;
         });
     };
 

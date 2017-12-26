@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 
 var app = express();
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'static', 'favicon.ico')));
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));

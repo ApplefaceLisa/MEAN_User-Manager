@@ -1,50 +1,48 @@
 app.controller("listUserController", ["$scope", "$location", "userMngService", "pagerService", function($scope, $location, userMngService, pagerService) {
     //$scope.users = userMngService.userlist;
 
+    $scope.showInfo = false;
+    $scope.pageSize = userMngService.getPagesize();
+    $scope.currentpage = userMngService.getPage();
     $scope.users = [];
+    $scope.pager = {};
+
     getUsers();
 
     function getUsers() {
         userMngService.getUsers("/users")
-        .then(function(result) {
-            $scope.users = result;
-            $scope.pageSize = userMngService.pagestatus.pagesize;
-            $scope.currentpage = userMngService.pagestatus.currentpage;
+        .then(function(response) {
+            $scope.users = response.data;
             $scope.pager = pagerService.getPager($scope.users.length, $scope.currentpage, $scope.pageSize);
+            $scope.currentpage = $scope.pager.currentPage;
+            $scope.showInfo = true;
+        }, function() {
+            console.log("get users error");
         });
     }
 
-    function changePagesize(size) {
-        userMngService.changePagesize($scope.pageSize);
-        $scope.pageSize = userMngService.pagestatus.pagesize;
-        $scope.currentpage = userMngService.pagestatus.currentpage;
+    function setPagesize(size) {
+        userMngService.setPagesize($scope.pageSize);
         $scope.pager = pagerService.getPager($scope.users.length, $scope.currentpage, $scope.pageSize);
     }
 
     $scope.$watch('pageSize', function() {
-        if ($scope.pageSize !== userMngService.pagestatus.pagesize)
-            changePagesize($scope.pageSize);
+        if ($scope.pageSize !== userMngService.getPagesize())
+            setPagesize($scope.pageSize);
     });
 
     $scope.$watch('currentpage', function() {
-        if ($scope.currentpage !== userMngService.pagestatus.currentpage)
-            userMngService.changePage($scope.currentpage);
+        if ($scope.currentpage !== userMngService.getPage())
+            userMngService.setPage($scope.currentpage);
     });
 
     $scope.setPage = function(page) {
         if (page < 1 || page > $scope.pager.totalPages) {
           return;
         }
-
         $scope.currentpage = page;
         $scope.pager = pagerService.getPager($scope.users.length, $scope.currentpage, $scope.pageSize);
     };
-
-    /*
-    console.log("host: "+ $location.host());
-    console.log("port: " + $location.port());
-    console.log("url: " + $location.absUrl());
-    */
 
     $scope.searchKey = "";
     $scope.propertyName = "";

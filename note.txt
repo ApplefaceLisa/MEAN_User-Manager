@@ -1,0 +1,5 @@
+1. error handling in controller (multi-user case)
+2. switch angular view after server return result
+3. pagination in client-side
+4. how to reuse id?
+5. do pagination in server-side
