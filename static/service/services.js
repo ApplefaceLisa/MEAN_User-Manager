@@ -115,8 +115,6 @@ angular.module("customServices", [])
         return $http({
             method : "GET",
             url : url
-        }).then(function(res) {
-            return res.data;
         });
     };
 
@@ -126,8 +124,6 @@ angular.module("customServices", [])
             method : "PUT",
             url : url,
             data : user
-        }).then(function(res) {
-            return res.data;
         });
     };
 
@@ -136,8 +132,6 @@ angular.module("customServices", [])
             method : "POST",
             url : url,
             data : user
-        }).then(function(res) {
-            return res.data;
         });
     };
 
@@ -146,8 +140,6 @@ angular.module("customServices", [])
         return $http({
             method : "DELETE",
             url : url
-        }).then(function(res) {
-            return res.data;
         });
     };
     /************************************************/

@@ -1,4 +1,4 @@
-app.controller("listUserController", ["$scope", "$location", "userMngService", "pagerService", function($scope, $location, userMngService, pagerService) {
+app.controller("listUserController", ["$scope", "$location", "$window", "userMngService", "pagerService", function($scope, $location, $window, userMngService, pagerService) {
     //$scope.users = userMngService.userlist;
 
     $scope.showInfo = false;
@@ -16,8 +16,6 @@ app.controller("listUserController", ["$scope", "$location", "userMngService", "
             $scope.pager = pagerService.getPager($scope.users.length, $scope.currentpage, $scope.pageSize);
             $scope.currentpage = $scope.pager.currentPage;
             $scope.showInfo = true;
-        }, function() {
-            console.log("get users error");
         });
     }
 
@@ -65,8 +63,14 @@ app.controller("listUserController", ["$scope", "$location", "userMngService", "
 
     $scope.deleteUser = function($event, userId) {
         $event.preventDefault();
-        userMngService.deleteUser("/users" , Number(userId));
-        getUsers();
-        $location.path("/");
+        userMngService.deleteUser("/users" , Number(userId))
+        .then(function(res) {
+            getUsers();
+            $location.path("/");
+        }, function(res) {
+            $window.alert("User Not Found");
+            getUsers();
+            $location.path("/");
+        });
     }
 }]);

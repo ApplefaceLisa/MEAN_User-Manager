@@ -12,12 +12,6 @@ app.controller("newUserController", ["$scope", "$location", "userMngService", fu
   $scope.error = false;
   $scope.incomplete = true;
 
-  /*
-  console.log("host: "+ $location.host());
-  console.log("port: " + $location.port());
-  console.log("url: " + $location.absUrl());
-  */
-
   $scope.$watch('passw1',function() {$scope.test();});
   $scope.$watch('passw2',function() {$scope.test();});
   $scope.$watch('user.fName', function() {$scope.test();});
@@ -38,8 +32,10 @@ app.controller("newUserController", ["$scope", "$location", "userMngService", fu
 
   $scope.addUser = function($event, usrObj) {
     $event.preventDefault();
-    userMngService.createUser("/users", usrObj);
-    $location.path("/");
+    userMngService.createUser("/users", usrObj)
+    .then(function(res) {
+      $location.path("/");
+    });
   }
 
   $scope.cancel = function($event) {

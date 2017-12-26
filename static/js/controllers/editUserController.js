@@ -1,18 +1,16 @@
-app.controller("editUserController", ["$scope", "$routeParams", "$location", "userMngService", function($scope, $routeParams, $location, userMngService) {
+app.controller("editUserController", ["$scope", "$routeParams", "$location", "$window", "userMngService", function($scope, $routeParams, $location, $window, userMngService) {
   var userId = Number($routeParams.id);
   $scope.id = userId;
-  $scope.user = {id:"", fName:"",  lName:"", title:"", gender:"", age:""};
+  $scope.dataReady = false;
 
   userMngService.getUserById("/users", userId)
-  .then(function(data) {
-      $scope.user = data;
+  .then(function(res) {
+      $scope.user = res.data;
+      $scope.dataReady = true;
+  }, function(res) {
+    $window.alert("User Not Found");
+    $location.path("/");
   });
-
-  /*
-  console.log("host: "+ $location.host());
-  console.log("port: " + $location.port());
-  console.log("url: " + $location.absUrl());
-  */
 
   $scope.passw1 = "";
   $scope.passw2 = "";
@@ -39,8 +37,13 @@ app.controller("editUserController", ["$scope", "$routeParams", "$location", "us
 
   $scope.editUser = function($event) {
     $event.preventDefault();
-    userMngService.updateUser("/users", userId, $scope.user);
-    $location.path("/");
+    userMngService.updateUser("/users", userId, $scope.user)
+    .then(function(res) {
+      $location.path("/");
+    }, function(res) {
+      $window.alert("User Not Found");
+      $location.path("/");
+    });
   }
 
   $scope.cancel = function($event) {
