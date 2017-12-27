@@ -2,10 +2,8 @@ app.controller("listUserController", ["$scope", "$location", "$window", "userMng
     //$scope.users = userMngService.userlist;
 
     $scope.showInfo = false;
-    $scope.pageSize = userMngService.getPagesize();
-    $scope.currentpage = userMngService.getPage();
     $scope.users = [];
-    $scope.pager = {};
+    $scope.pageSize = 10;
 
     getUsers();
 
@@ -13,34 +11,9 @@ app.controller("listUserController", ["$scope", "$location", "$window", "userMng
         userMngService.getUsers("/users")
         .then(function(response) {
             $scope.users = response.data;
-            $scope.pager = pagerService.getPager($scope.users.length, $scope.currentpage, $scope.pageSize);
-            $scope.currentpage = $scope.pager.currentPage;
             $scope.showInfo = true;
         });
     }
-
-    function setPagesize(size) {
-        userMngService.setPagesize($scope.pageSize);
-        $scope.pager = pagerService.getPager($scope.users.length, $scope.currentpage, $scope.pageSize);
-    }
-
-    $scope.$watch('pageSize', function() {
-        if ($scope.pageSize !== userMngService.getPagesize())
-            setPagesize($scope.pageSize);
-    });
-
-    $scope.$watch('currentpage', function() {
-        if ($scope.currentpage !== userMngService.getPage())
-            userMngService.setPage($scope.currentpage);
-    });
-
-    $scope.setPage = function(page) {
-        if (page < 1 || page > $scope.pager.totalPages) {
-          return;
-        }
-        $scope.currentpage = page;
-        $scope.pager = pagerService.getPager($scope.users.length, $scope.currentpage, $scope.pageSize);
-    };
 
     $scope.searchKey = "";
     $scope.propertyName = "";

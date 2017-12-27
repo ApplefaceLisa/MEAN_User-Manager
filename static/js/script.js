@@ -1,4 +1,4 @@
-var app = angular.module("userMngrApp", ["ngRoute", "customServices"]);
+var app = angular.module("userMngrApp", ["ngRoute", "customServices", "angularUtils.directives.dirPagination"]);
 
 app.config(function($routeProvider) {
     $routeProvider

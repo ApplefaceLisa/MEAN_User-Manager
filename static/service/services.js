@@ -25,10 +25,11 @@ angular.module("customServices", [])
         // calculate total pages
         var totalPages = Math.ceil(totalItems / pageSize);
 
-        /* for delete users */
+        /* for delete users
         if (currentPage > totalPages) {
             currentPage = currentPage > 1 ? currentPage - 1 : 1;
         }
+        */
 
         var startPage, endPage;
         if (totalPages <= 10) {
@@ -73,7 +74,7 @@ angular.module("customServices", [])
 .factory("userMngService", ["$http", function($http) {
     var service = {};
 
-    /* for pagination */
+    /* for pagination
     var pagesize = 10;
     var currentpage = 1;
 
@@ -100,6 +101,7 @@ angular.module("customServices", [])
     service.setPagesize = setPagesize;
     service.getPage = getPage;
     service.getPagesize = getPagesize;
+    */
 
     /************************************************/
     /* RESTful API */
