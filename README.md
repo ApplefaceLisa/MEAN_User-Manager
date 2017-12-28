@@ -48,3 +48,103 @@ To create an expressJS application that:
 - update your angularJS app's service to call this expressJS app to access the user array completely.
 
 [repo](https://github.com/ApplefaceLisa/MEAN_User-Manager.git)
+
+# mySQL
+### [Using MySQL Database from Node.js [Guide]](https://www.freelancer.com/community/articles/using-mysql-database-from-node-js-guide)
+### [Using MySQL with Node.js & the mysql JavaScript Client](https://www.sitepoint.com/using-node-mysql-javascript-client/)
+#### How to use MySQL in Node in 5 easy steps
+1. Create a new project: `mkdir mysql-test && cd mysql-test`  
+2. Create a package.json file: `npm init –y`  
+3. Install the mysql module: `npm install mysql –save`  
+4. Create an `app.js` file and copy in the snippet below. Connecting database.  
+```
+//app.js
+
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+  host: <host_name>,
+  user: <user_name>,
+  password: <password>,
+  database: <database_name>
+});
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected!');
+});
+```
+5. Run the file: `node app.js`. Observe a “Connected!” message.
+
+#### Using mySQL workbench create a database called `sitepoint` and a table called `employees`.
+```
+CREATE TABLE employees (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(50),
+  location varchar(50),
+  PRIMARY KEY (id)
+)
+
+INSERT INTO employees (id, name, location) VALUES
+(1, 'Jasmine', 'Australia'),
+(2, 'Jay', 'India'),
+(3, 'Jim', 'Germany'),
+(4, 'Lesley', 'Scotland');
+```
+
+#### Executing Queries
+1. Reading / GET  
+```
+connection.query('SELECT * FROM employees', (err,rows, fields) => {
+  if(err) throw err;
+
+  console.log('Data received from Db:\n');
+  console.log(rows);
+  
+  // rows :
+  [ { id: 1, name: 'Jasmine', location: 'Australia' },
+  { id: 2, name: 'Jay', location: 'India' },
+  { id: 3, name: 'Jim', location: 'Germany' },
+  { id: 4, name: 'Lesley', location: 'Scotland' } ]
+});
+```
+2. Creating / POST  
+```
+const employee = { name: 'Winnie', location: 'Australia' };
+connection.query('INSERT INTO employees SET ?', employee, (err, res) => {
+  if(err) throw err;
+
+  console.log('Last insert ID:', res.insertId);
+});
+```
+3. Updating / PUT  
+```
+connection.query(
+  'UPDATE employees SET location = ? Where ID = ?',
+  ['South Africa', 5],
+  (err, result) => {
+    if (err) throw err;
+
+    console.log(`Changed ${result.changedRows} row(s)`);
+  }
+);
+// OR
+const employee = { name: 'Winnie', location: 'Australia' };
+connection.query(
+  'UPDATE employees SET ? Where ID = ?',
+  [employee, 5],
+  (err, result) => {
+    if (err) throw err;
+
+    console.log(`Changed ${result.changedRows} row(s)`);
+  }
+);
+```
+4. Destroying / DELETE  
+```
+connection.query(
+  'DELETE FROM employees WHERE id = ?', [5], (err, result) => {
+    if (err) throw err;
+
+    console.log(`Deleted ${result.affectedRows} row(s)`);
+  }
+);
+```
