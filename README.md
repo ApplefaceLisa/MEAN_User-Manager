@@ -93,18 +93,32 @@ INSERT INTO employees (id, name, location) VALUES
 #### Executing Queries
 1. Reading / GET  
 ```
+// Get all
 connection.query('SELECT * FROM employees', (err,rows, fields) => {
   if(err) throw err;
 
   console.log('Data received from Db:\n');
   console.log(rows);
-  
-  // rows :
+});
+
+// rows in console:
   [ { id: 1, name: 'Jasmine', location: 'Australia' },
   { id: 2, name: 'Jay', location: 'India' },
   { id: 3, name: 'Jim', location: 'Germany' },
   { id: 4, name: 'Lesley', location: 'Scotland' } ]
+
+
+// Get by id
+var id = 2;
+connection.query('SELECT * FROM employees WHERE id = ?', [id], (err,rows, fields) => {
+  if(err) throw err;
+
+  console.log('Data received from Db:\n');
+  console.log(rows);
 });
+
+// rows in console:
+[{ id: 2, name: 'Jay', location: 'India' }]
 ```
 2. Creating / POST  
 ```
